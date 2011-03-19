@@ -11,6 +11,10 @@
 #include <highgui.h>
 
 #define RANDOM_SEED 0x1337
+#define IMAGE_WIDTH 1024
+#define IMAGE_HEIGHT 768
+
+#define BACKGROUND_COLOR 40
 
 void init_rng();
 void draw_loop(IplImage *img);
@@ -24,7 +28,7 @@ void draw_rectangles(IplImage *img, CvScalar color, int min_cnt, int max_cnt);
 int main(int argc, char **argv)
 {
 	IplImage *img;
-	CvSize size = { 1024, 768 };
+	CvSize size = { IMAGE_WIDTH, IMAGE_HEIGHT };
 	
 	//srandom(RANDOM_SEED);
 	init_rng();
@@ -46,25 +50,25 @@ void draw_loop(IplImage *img)
 	int key;
 	CvScalar circle_clr, ellipse_clr, square_clr, rect_clr, bkgd_clr;
 	
-	circle_clr.val[0] = random_range(90, 255);
-	circle_clr.val[1] = random_range(90, 255);
-	circle_clr.val[2] = random_range(90, 255);		
+	circle_clr.val[0] = random_range(30, 255);
+	circle_clr.val[1] = random_range(50, 255);
+	circle_clr.val[2] = random_range(120, 255);		
 
 	ellipse_clr.val[0] = random_range(90, 255);
-	ellipse_clr.val[1] = random_range(90, 255);
-	ellipse_clr.val[2] = random_range(90, 255);		
+	ellipse_clr.val[1] = random_range(30, 255);
+	ellipse_clr.val[2] = random_range(120, 255);		
 
-	square_clr.val[0] = random_range(90, 255);
-	square_clr.val[1] = random_range(90, 255);
-	square_clr.val[2] = random_range(90, 255);		
+	square_clr.val[0] = random_range(30, 255);
+	square_clr.val[1] = random_range(120, 255);
+	square_clr.val[2] = random_range(100, 255);		
 
-	rect_clr.val[0] = random_range(90, 255);
-	rect_clr.val[1] = random_range(90, 255);
-	rect_clr.val[2] = random_range(90, 255);		
+	rect_clr.val[0] = random_range(20, 255);
+	rect_clr.val[1] = random_range(150, 255);
+	rect_clr.val[2] = random_range(80, 255);		
 	
-	bkgd_clr.val[0] = 60;
-	bkgd_clr.val[1] = 60;
-	bkgd_clr.val[2]  = 60;
+	bkgd_clr.val[0] = BACKGROUND_COLOR;
+	bkgd_clr.val[1] = BACKGROUND_COLOR;
+	bkgd_clr.val[2] = BACKGROUND_COLOR;
 
 	// start with a blank calibration image
 	cvSet(img, bkgd_clr, 0);
@@ -93,7 +97,7 @@ void draw_circles(IplImage *img, CvScalar color, int min_cnt, int max_cnt)
 	for (i = 0; i < cnt; i++) {
 		center.x = random_range(50, 950);
 		center.y = random_range(50, 700);
-		radius = random_range(5, 50);
+		radius = random_range(5, 40);
 		cvCircle(img, center, radius, color, CV_FILLED, 8, 0);
 	}	
 }
