@@ -4,6 +4,10 @@
   be used for raw image processing by VisualSpreadsheet.
 */
 
+#ifdef WIN32
+#include <Windows.h>
+#endif
+
 #include <stdlib.h>
 #include <time.h>
 #define CV_NO_BACKWARD_COMPATIBILITY
@@ -30,7 +34,6 @@ int main(int argc, char **argv)
 	IplImage *img;
 	CvSize size = { IMAGE_WIDTH, IMAGE_HEIGHT };
 	
-	//srandom(RANDOM_SEED);
 	init_rng();
 	
 	img = cvCreateImage(size, IPL_DEPTH_8U, 3);
@@ -158,13 +161,22 @@ void draw_rectangles(IplImage *img, CvScalar color, int min_cnt, int max_cnt)
 
 void init_rng()
 {
+#ifdef WIN32
+	srand(GetTickCount());
+#else
 	time_t tt;
 	time(&tt);
 	srandom((unsigned int)tt);
+#endif
 }
 
 int random_range(int low, int high)
 {
+#ifdef WIN32
+	double r = rand() / (double) RAND_MAX;
+#else
 	double r = random() / (double) RAND_MAX;
-	return low + ((high - low) * r);	
+#endif
+
+	return (int) (low + ((high - low) * r));	
 }
